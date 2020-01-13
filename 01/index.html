@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Meu Blog</title>
+    <body>
+      <style>
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          background-color: cornflowerblue;
+        }
+
+        .container {
+          max-width: 800px;
+          width: 100%;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: row;
+          margin-top: 30px;
+        }
+
+        .menu-section {
+          min-width: 200px;
+          margin-right: 15px;
+          padding: 20px;
+          border: 1px solid black;
+          background-color: #ffffff;
+        }
+        .menu-items {
+          list-style: none;
+          padding: 0;
+        }
+
+        .main-section {
+        }
+        .post {
+          margin-bottom: 10px;
+          border: 1px solid black;
+          background-color: #ffffff;
+        }
+
+        .blog-title {
+          font-weight: bold;
+          font-size: 20px;
+        }
+
+        .post-title {
+          padding: 15px 30px;
+          font-weight: bold;
+          font-size: 28px;
+        }
+        .post-content {
+          padding: 15px 30px;
+        }
+      </style>
+    </body>
+
+    <div class="container">
+      <div class="menu-section">
+        <span class="blog-title">Meu Blog</span>
+        <ul class="menu-items">
+          <li>Home</li>
+          <li>Categorias</li>
+          <li>sobre</li>
+        </ul>
+      </div>
+
+      <div id="posts" class="main-section">
+        <div class="post">
+          <div class="post-title">Meu Post</div>
+          <div class="post-content">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </div>
+        </div>
+        <div class="post">
+          <div class="post-title">Meu Post 2</div>
+          <div class="post-content">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var postsContainer = document.querySelector("#posts");
+
+      //for (var i = 0; i <= 10; i++) {
+      // var post = document.createElement("div");
+      // post.classList.add("post");
+      // var postTitle = document.createElement("div");
+      // postTitle.classList.add("post-title");
+      // postTitle.innerHTML = "Post" + i;
+      // var postContent = document.createElement("div");
+      // postContent.classList.add("post-content");
+      // postContent.innerHTML =
+      //   "dehjdewuewueduieddheowcceboewpwoedewopdkewodewopdewiodewidpow";
+      // post.appendChild(postTitle);
+      // post.appendChild(postContent);
+      // postsContainer.appendChild(post);
+      // var content = '<div class="post-title">';
+      // content += "Post" + 1;
+      // content += '</div><div class="post-content">';
+      // content += "tiudweiudjewidjewidjewodjiwo";
+      // content += "</div>";
+      // postsContainer.innerHTML +=
+
+      function makePost(title, content) {
+        var post = '<div class="post"><div class="post-title">';
+        post += title;
+        post += '</div><div class="post-content">';
+        post += content;
+        post += "</div></div>";
+        postsContainer.innerHTML += post;
+      }
+
+      fetch("http://172.17.1.15:8080/article/recent", { mode: "cors" })
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          for (var i = 0; i < data.length; i++) {
+            makePost(data[i].title, data[i].content);
+          }
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
+    </script>
+  </head>
+</html>
