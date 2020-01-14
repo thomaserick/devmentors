@@ -15,3 +15,5 @@ Curso Dev.Mentors Neomind
 -LIT ELEMENT
 
 helper :
+
+https://showmethecode.com.br/async-await/
