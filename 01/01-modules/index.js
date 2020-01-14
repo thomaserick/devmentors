@@ -1,13 +1,4 @@
-const postsContainer = document.querySelector("#posts");
-
-function makePost(title, content) {
-  const post = '<div class="post"><div class="post-title">';
-  post += title;
-  post += '</div><div class="post-content">';
-  post += content;
-  post += "</div></div>";
-  postsContainer.innerHTML += post;
-}
+import { makePost } from "./makepost.js";
 
 fetch("http://172.17.1.15:8080/article/recent", { mode: "cors" })
   .then(function(response) {

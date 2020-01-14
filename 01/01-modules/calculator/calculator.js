@@ -1,5 +1,5 @@
 import { sum as sum2 } from "./sum.js";
-import { sub } from "./sub.js";
+import { sub, sub6 } from "./sub.js";
 
 class Calculator {
   sum2(a, b) {
@@ -8,6 +8,14 @@ class Calculator {
 
   sub(a, b) {
     return sub(a, b);
+  }
+
+  subEcma6(a, b) {
+    return sub6(a, b);
+  }
+
+  sumEcma6(a, b) {
+    return sumEcma6(a, b);
   }
 }
 
