@@ -1,51 +1,39 @@
-import { disconnect } from "cluster";
+class HelloWord extends HTMLElement {
+  constructor() {
+    super();
+    this.name = "Johnatan";
+    this.innerHTML = `
+            Hello <b class="hello-name">${this.name}</b>
+            `;
+  }
 
+  get name() {
+    return this.getAttribute("name");
+  }
 
-class HellWorld extends HTMLElement {
-
-
-    constructor(){
-        super();
-        this.innerHTML = `Hello <b class="hello-name"`
-    }
-
-    get name(){
-        return this.getAttribute('name');
-    }
-    set name(value){
-        this.setAttribute
-        
-    }
+  set name(value) {
+    this.setAttribute("name", value);
+  }
 
   connectedCallback() {
-      console.log('disconnected')
- 
-    if(this.hasAttribute('name')){
-        name = this.getAttribute('name');
-        this.innerHTML = `Hello <b>Wolrd</b>`;
+    console.log("connected");
+  }
+
+  disconnectedCallback() {
+    console.log("disconnected");
+  }
+
+  attributeChangedCallback(attrName, oldVal, newVal) {
+    if (attrName === "name" && oldVal !== newVal) {
+      this.name = newVal;
+      const helloName = this.querySelector(".hello-name");
+      helloName.innerHTML = this.name;
     }
-    else {
-      name = 'World'
+  }
+
+  static get observedAttributes() {
+    return ["name"];
   }
 }
 
-disconnectCallback() {
-console.log('disconnected');
-
-}
-
-attributeChangedCallBack(attrName,oldVal,newVal){
-    if(attName == 'name' && oldVal !== newVal){
-        this.name = newVal
-        const helloNome = this.querySelector('.hello-name');
-        helloNome.innerHTML = this.name;
-    }
-   
-}
-
-static get observedAttributes(){
-return ['name']
-
-}
-
-window.customElements.define("hello-world", HellWorld);
+window.customElements.define("hello-word", HelloWord);
