@@ -13,5 +13,3 @@ Curso Dev.Mentors Neomind
 - Como definir um novo elemento HTML.
 
 -LIT ELEMENT
-
-- npx
