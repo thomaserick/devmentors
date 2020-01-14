@@ -1,16 +1,4 @@
-import { makePost } from "./makepost.js";
+import { makePost } from "./post-factory.js";
+import { getArticles } from "./post-factory";
 
-async function getJson() {
-  try {
-    const response = await fetch("http://172.17.1.15:8080/article/recent");
-    const data = await response.json();
-
-    for (let i = 0; i < data.length; i++) {
-      makePost(data[i].title, data[i].content);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-getJson();
+const postsContainer = document.querySelector("#posts");

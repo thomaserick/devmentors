@@ -1,4 +1,3 @@
-const postsContainer = document.querySelector("#posts");
 
 export function makePost(title, content) {
   const post = '<div class="post"><div class="post-title">';
