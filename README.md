@@ -17,8 +17,6 @@ es-dev-server -w
 - Como usar um componente da web
 - Como definir um novo elemento HTML.
 
--LIT ELEMENT
-
-helper :
+helpers :
 
 https://showmethecode.com.br/async-await/

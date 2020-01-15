@@ -2,24 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Desafio1</title>
+    <title>Dia 02</title>
     <style>
       body {
-        --hello-name-color: red;
+        --hello-name-color: green;
       }
     </style>
   </head>
   <body>
-    <button onclick="contaClique()">Clique</button>
-    <conta-clique></conta-clique>
+    <div>
+      <hello-world name="Thomas"></hello-world>
+    </div>
+    <br />
 
-    <script src="./conta-clique.js" type="module"></script>
-    <script>
-      function contaClique() {
-        const clique = document.querySelector("conta-clique");
+    <div>
+      <button onclick="countClick()">Clique Aqui!</button>
+      <count-click></count-click>
+    </div>
 
-        clique.qtclique++;
-      }
-    </script>
+    <script src="./main.js"></script>
+    <script src="./hello-world.js" type="module"></script>
+    <script src="./desafio-01/count-view.js" type="module"></script>
   </body>
 </html>
