@@ -24,8 +24,8 @@ class CountView extends HTMLElement {
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
-    if (attrName === "qtclique" && oldVal !== newVal) {
-      this.qtdclique = newVal;
+    if (attrName === "qtclick" && oldVal !== newVal) {
+      this.qtclick = newVal;
       const cont = document.querySelector(".count");
       cont.innerHTML = this.qtclick;
     }
