@@ -24,6 +24,7 @@ class CountView extends HTMLElement {
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
+    //Teste para não ficar em Loop
     if (attrName === "qtclick" && oldVal !== newVal) {
       this.qtclick = newVal;
       const cont = document.querySelector(".count");
