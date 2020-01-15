@@ -1,8 +1,20 @@
 <!DOCTYPE html>
-<html>
-  <head> </head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Desafio1</title>
+  </head>
   <body>
-    <hello-world name="Thomas Erick"></hello-world>
-    <script src="./hello-world.js" type="module"></script>
+    <button onclick="contaClique()">Clique</button>
+    <conta-clique></conta-clique>
+
+    <script src="./conta-clique.js" type="module"></script>
+    <script>
+      function contaClique() {
+        const clique = document.querySelector("conta-clique");
+
+        clique.qtdclique++;
+      }
+    </script>
   </body>
 </html>

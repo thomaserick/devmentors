@@ -1,7 +1,8 @@
 class HelloWord extends HTMLElement {
   constructor() {
     super();
-    this.name = "Johnatan";
+    this.attachShadow({ mode: "open" });
+
     this.innerHTML = `
             Hello <b class="hello-name">${this.name}</b>
             `;
@@ -36,4 +37,4 @@ class HelloWord extends HTMLElement {
   }
 }
 
-window.customElements.define("hello-word", HelloWord);
+window.customElements.define("hello-world", HelloWord);
