@@ -1,18 +1,18 @@
 class ContaClique extends HTMLElement {
   constructor() {
     super();
-    this.qtdclique = 0;
+    this.qtclique = 0;
     this.innerHTML = `
-          Botão clicado <b class="contador">${this.qtdclique}</b>
+          Botão clicado <b class="contador">${this.qtclique}</b>
           `;
   }
 
-  get qtdclique() {
-    return this.getAttribute("qtdclique");
+  get qtclique() {
+    return this.getAttribute("qtclique");
   }
 
-  set qtdclique(value) {
-    this.setAttribute("qtdclique", value);
+  set qtclique(value) {
+    this.setAttribute("qtclique", value);
   }
 
   connectedCallback() {
@@ -24,15 +24,15 @@ class ContaClique extends HTMLElement {
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
-    if (attrName === "qtdclique" && oldVal !== newVal) {
+    if (attrName === "qtclique" && oldVal !== newVal) {
       this.qtdclique = newVal;
       const contador = document.querySelector(".contador");
-      contador.innerHTML = this.qtdclique;
+      contador.innerHTML = this.qtclique;
     }
   }
 
   static get observedAttributes() {
-    return ["qtdclique"];
+    return ["qtclique"];
   }
 }
 
