@@ -2,7 +2,7 @@ class DmCheckbox extends HTMLElement {
   constructor() {
     super();
     this.label = "NoChecked";
-    this.checked = false;
+    //this.checked = false;
     this.innerHTML = `<input type="checkbox" id="ckbox">
     <label id="label" for="label" >${this.label}</label>`;
   }
@@ -16,7 +16,7 @@ class DmCheckbox extends HTMLElement {
   }
 
   get checked() {
-    return this.attribute("checked");
+    return this.hasAttribute("checked");
   }
 
   set checked(checked) {
@@ -45,7 +45,7 @@ class DmCheckbox extends HTMLElement {
       this.check = newVal;
 
       const check = document.querySelector("#ckbox");
-      check.checked = newVal === "true";
+      check.checked = this.check;
     }
   }
 
