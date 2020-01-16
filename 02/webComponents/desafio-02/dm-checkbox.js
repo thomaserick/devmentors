@@ -1,9 +1,9 @@
 class DmCheckbox extends HTMLElement {
   constructor() {
     super();
-    this.label = "NoChecked";
-    //this.checked = false;
-    this.innerHTML = `<input type="checkbox" id="ckbox">
+    this.attachShadow({ mode: "open" });
+    this.shadowRoot.innerHTML = `        
+    <input type="checkbox" id="ckbox">
     <label id="label" for="label" >${this.label}</label>`;
   }
 
@@ -21,10 +21,25 @@ class DmCheckbox extends HTMLElement {
 
   set checked(checked) {
     this.setAttribute("checked", checked);
+
+    if (checked) {
+      this.setAttribute("checked");
+    } else {
+      this.removeAttribute("checked");
+    }
   }
 
   connectedCallback() {
     console.log("Connected");
+    this.shadowRoot.querySelector("#ckbox").addEventListener("change", e => {
+      this.checked = e.target.hasAttribute("checked");
+      //this.checked = !this.checked
+
+      if (this.checked !== e.target.checked) {
+        this.checked = e.target.checked;
+      }
+      debugger;
+    });
   }
 
   disconnectedCallback() {
@@ -32,20 +47,20 @@ class DmCheckbox extends HTMLElement {
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
+    //debugger;
     //Label
     if (attrName === "label" && oldVal !== newVal) {
-      this.label = newVal;
-
-      const label = document.querySelector("#label");
-      label.innerHTML = this.label;
+      this.shadowRoot.querySelector("#label").innerHTML = newVal;
     }
 
     //checkbox
     if (attrName === "checked" && oldVal !== newVal) {
-      this.check = newVal;
-
-      const check = document.querySelector("#ckbox");
-      check.checked = this.check;
+      const check = this.shadowRoot.querySelector("#ckbox");
+      if (newVal != null) {
+        check.setAttribute("checked", "true");
+      } else {
+        check.removeAttribute("checked");
+      }
     }
   }
 

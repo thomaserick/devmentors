@@ -1,0 +1,15 @@
+{
+  "name": "exemple-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "lit-element": "^2.2.1"
+  },
+  "devDependencies": {
+    "es-dev-server": "^1.36.2"
+  },
+  "scripts": {
+    "start": "es-dev-server --node-resolve --watch"
+  }
+}
