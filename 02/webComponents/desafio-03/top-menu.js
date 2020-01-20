@@ -1,92 +1,90 @@
 class TopMenu extends HTMLElement {
   constructor() {
     super();
+
     this.attachShadow({ mode: "open" });
+
     this.shadowRoot.innerHTML = `
-    <style>
-    
-    :host{
-        display:block
-        background-color: var(--top-menu-bg-color,#cacaca)
-        color: var(--top-menu-text-color,#000)
-
-    }
-      
-    #items{
-      display:flex;
-    }
-    #title{
-      font-weght: bold;
-      margin-left:15px;
-    }
-
-
-
-    </style>
- 
-   <div id="title"></div>
-   <div id="items"></div>
-   
-
-
-    `;
+          <style>
+              :host {
+                  display: block;
+                  background-color: var(--top-menu-bg-color, #cacaca);
+                  color: var(--top-menu-text-color, #000);
+                  display: flex;
+                  padding: 15px;
+              }
+              #items {
+                  display: flex;
+              }
+              #title {
+                  font-weight: bold;
+                  margin-right: 15px;
+              }
+              .item:not(:last-child) {
+                  margin-right: 10px
+              }
+              .item {
+                  cursor: pointer;
+              }
+              
+          </style>
+          <div id="title"></div>
+          <div id="items"></div>
+      `;
     this.items = [];
+  }
+
+  set title(value) {
+    this.setAttribute("title", value);
   }
 
   get title() {
     return this.getAttribute("title");
   }
 
-  set title(title) {
-    this.setAttribute("title", title);
+  set items(value) {
+    debugger;
+    this._items = value;
+    this.updateItems();
   }
 
   get items() {
     return this._items;
   }
 
-  set items(items) {
-    this._items = items;
-    this.updateItems();
-  }
-
   updateItems() {
+    debugger;
     const itemsContainer = this.shadowRoot.querySelector("#items");
     if (this._items) {
-      for (let items of this._items) {
-        const item = document.createElement("div");
-        item.classList.add('items');
-        item.innerHTML = item;
-        item.addEventListener('click',()=>{
-          this.dispatchEvent(new CustomEvent('menu-item-checked',{
-            detail: {
-              
-            }
-          }))
-        })
-
-
-        itemsContainer.innerHTML += ${items}</div>`;
+      itemsContainer.innerHTML = "";
+      for (let item of this._items) {
+        const itemElement = document.createElement("div");
+        itemElement.classList.add("item");
+        itemElement.innerHTML = item;
+        itemElement.addEventListener("click", () => {
+          this.dispatchEvent(
+            new CustomEvent("menu-item-clicked", {
+              detail: {
+                item
+              }
+            })
+          );
+        });
+        itemsContainer.appendChild(itemElement);
       }
     } else {
       itemsContainer.innerHTML = "";
     }
   }
 
-  connectedCallback() {
-    console.log("Connected");
-  }
-
-  disconnectedCallBack() {}
-
-  attributeChangedCallback(attrName, oldVal, newVal) {
-    if (attrName == "title" && oldVal !== newVal) {
-      this.shadowRoot.querySelector("#title").innerHTML = newVal;
-    }
-  }
-
   static get observedAttributes() {
     return ["title"];
+  }
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    if (name === "title") {
+      this.shadowRoot.querySelector("#title").innerHTML = newVal;
+    }
   }
 }
 

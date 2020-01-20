@@ -24,15 +24,21 @@
 
     <!-- Desafio-02 -->
     <br />
-    <div>
-      <dm-checkbox label="checked" checked></dm-checkbox> <br />
-
-      <br /><br />
-    </div>
+    <div><dm-checkbox label="checked" checked></dm-checkbox> <br /></div>
+    <br /><br />
 
     <!-- Desafio-03 -->
     <div>
-      <top-menu title="Menu-menu"></top-menu>
+      <top-menu id="menu" title="Meu Menu"></top-menu>
+    </div>
+    <br /><br />
+
+    <!-- Desafio-04 -->
+    <div>
+      <top-menu-slotted id="menu">
+        <div slot="right">Direita</div>
+        <div slot="left">Esquerda</div>
+      </top-menu-slotted>
     </div>
 
     <br />
@@ -42,5 +48,6 @@
     <script src="./desafio-01/count-view.js" type="module"></script>
     <script src="./desafio-02/dm-checkbox.js" type="module"></script>
     <script src="./desafio-03/top-menu.js" type="module"></script>
+    <script src="./desafio-04/top-menu-slotted.js" type="module"></script>
   </body>
 </html>
