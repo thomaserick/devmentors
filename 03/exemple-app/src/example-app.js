@@ -2,6 +2,7 @@ import { LitElement, html } from "lit-element";
 import "./hello-world";
 import "./desafio-01/count-view";
 import "./desafio-02/dm-checkbox";
+import "./desafio-06/input-num";
 
 class ExampleApp extends LitElement {
   constructor() {
@@ -12,11 +13,18 @@ class ExampleApp extends LitElement {
   render() {
     return html`
       <hello-world name=${this.name} .items=${this.helloItems}></hello-world>
-      <br />
+      <br /><br />
       <count-view></count-view>
-      <br />
-      <dm-checkbox></dm-checkbox>
+      <br /><br />
+      <!-- <dm-checkbox label="CheckBox" @change=${this
+        .changeBox}></dm-checkbox> -->
+      <br /><br />
+      <input-num></input-num>
     `;
+  }
+
+  changeBox(e) {
+    console.log(e.detail.checked);
   }
 }
 

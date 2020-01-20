@@ -9,7 +9,8 @@ class DmCheckbox extends LitElement {
 
   static get properties() {
     return {
-      checked: { type: Boolean }
+      checked: { type: Boolean },
+      label: { type: String }
     };
   }
   render() {
@@ -20,15 +21,24 @@ class DmCheckbox extends LitElement {
         @change=${this.change}
         type="checkbox"
       />
-      <label id="label" for="label"></label>
+      <label id="label" for="label">${this.label}</label>
     `;
   }
 
   change(e) {
     console.log(e.target.checked);
+    this.checked = e.target.checked;
+  }
 
-    if (this.checked !== e.target.checked) {
-      this.checked = e.target.checked;
+  updated() {
+    if (changedProperties.has("checked")) {
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            checked: this.checked
+          }
+        })
+      );
     }
   }
 }
