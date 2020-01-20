@@ -31,7 +31,7 @@ class DmCheckbox extends LitElement {
   }
 
   updated() {
-    if (changedProperties.has("checked")) {
+    if (changedProperties.has("termos")) {
       this.dispatchEvent(
         new CustomEvent("change", {
           detail: {

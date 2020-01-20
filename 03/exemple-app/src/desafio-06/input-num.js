@@ -8,9 +8,11 @@ class InputNum extends LitElement {
   }
 
   static get styles() {
-
-
-
+    return css`
+      :host {
+        display: block;
+      }
+    `;
   }
   static get properties() {
     return {
@@ -35,15 +37,21 @@ class InputNum extends LitElement {
 
   change(e) {
     this.value = e.target.value;
-           
+
     if (this.max > this.value || this.min < this.value) {
-
-        const invalidInput = document.querySelector("#inputnum");
-        invalidInput.innerHTML = 
-
-
+      this.inputElementValid();
+    } else {
+      this.inputElementInValid();
     }
-    console.log(this.value, this.max, this.min);
+  }
+
+  inputElementValid() {
+    this.shadowRoot.querySelector("#inputnum").style.border = "2px solid red";
+  }
+
+  inputElementInValid() {
+    this.shadowRoot.querySelector("#inputnum").style.border = "";
   }
 }
+
 window.customElements.define("input-num", InputNum);
