@@ -1,0 +1,12 @@
+{
+  "name": "desafio-06",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "lit-element": "^2.2.1"
+  },
+  "devDependencies": {
+    "es-dev-server": "^1.36.2"
+  }
+}
