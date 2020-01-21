@@ -8,5 +8,8 @@
   },
   "devDependencies": {
     "es-dev-server": "^1.36.2"
+  },
+  "scripts": {
+    "start": "es-dev-server --node-resolve --watch"
   }
 }
