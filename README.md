@@ -37,4 +37,4 @@ yarn start
 gitignore
 node_modules/
 
-desafio-3
+yarn add navigo

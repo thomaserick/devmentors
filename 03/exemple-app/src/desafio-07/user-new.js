@@ -17,6 +17,19 @@ class UserNew extends LitElement {
       :host {
         display: block;
       }
+
+      .form-control {
+        border: 2px solid #7a7b7c;
+        padding: 7px;
+        width: 100%;
+        border-radius: 5px;
+        transition: border-color ease 0.15s;
+      }
+
+      .form-control.focus {
+        outline: none !important;
+        border-color: #344ec3;
+      }
     `;
   }
 
@@ -34,12 +47,13 @@ class UserNew extends LitElement {
 
   render() {
     return html`
-      <input type="text" id="name" placeholder="Nome" ></input></br></br>
-      <input type="text" id="lastname" placeholder="Sobrenome" /></br></br>
-      <input type="text" id="email" placeholder="e-mail" /></br></br>
-      <input type="text" id="passwd" placeholder="senha" /></br></br>
-      <input type="text" id="confPasswd"placeholder="Confirma Senha"/></br></br>
-      <input type="checkbox" ?checked=${this.termos}  @change=${this.change} />aceitar termos de condições.
+  
+    <input type="text" id="name" placeholder="Nome" ></input></br></br>
+    <input type="text" id="lastname" placeholder="Sobrenome" /></br></br>
+    <input type="text" id="email" placeholder="e-mail" /></br></br>
+    <input type="text" id="passwd" placeholder="senha" /></br></br>
+    <input type="text" id="confPasswd" placeholder="Confirma Senha"/></br></br>
+    <input type="checkbox" ?checked=${this.termos}  @change=${this.change} />aceitar termos de condições.
       </br></br>  
       <button @click="${this.addUser}" >Confirmar</button>
 
@@ -63,6 +77,31 @@ class UserNew extends LitElement {
     if (this.name === "") {
       alert("Preencha o campo Nome");
       inputName.focus();
+      return false;
+    }
+    if (this.lastname === "") {
+      alert("Preencha o campo Sobrenome");
+      inputLastName.focus();
+      return false;
+    }
+    if (this.email === "") {
+      alert("Preencha o campo Email");
+      inputEmail.focus();
+      return false;
+    }
+    if (this.passwd) {
+      alert("Preencha o campo Senha");
+      inputPasswd.focus();
+      return false;
+    }
+    if (this.confPasswd === "") {
+      alert("Preencha o campo Confirmar Senha");
+      inputConfPasswd.focus();
+      return false;
+    }
+    if (this.senha !== this.confPasswd) {
+      alert("A senha não Confere!");
+      inputPasswd.focus();
       return false;
     }
 

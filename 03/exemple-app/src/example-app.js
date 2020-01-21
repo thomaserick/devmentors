@@ -1,4 +1,4 @@
-import { LitElement, html } from "lit-element";
+import { LitElement, html, css } from "lit-element";
 import "./hello-world";
 import "./desafio-01/count-view";
 import "./desafio-02/dm-checkbox";
@@ -10,6 +10,17 @@ class ExampleApp extends LitElement {
     super();
     this.name = "Thomas";
     this.helloItems = ["Item teste 1", "Item teste 2"];
+  }
+
+  static get styles() {
+    return css`
+      .container {
+        max-width: 600px;
+        width: 100%;
+        margin: 20px auto;
+        padding: 15px;
+      }
+    `;
   }
   render() {
     // return html`
@@ -24,7 +35,9 @@ class ExampleApp extends LitElement {
     // `;
 
     return html`
-      <user-new></user-new>
+      <div class="container">
+        <user-new></user-new>
+      </div>
     `;
   }
 
