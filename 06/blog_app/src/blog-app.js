@@ -11,14 +11,25 @@ class BlogApp extends LitElement {
 
     router
       .on("home", async () => {
-        this.router = "route";
-        await import("./views/home-view");
+        this.router = "home";
+        await import("./views/home.js");
         this.currentRoute = html`
           <home-view></home-view>
         `;
       })
-      .on("login", () => {
+      .on("login", async () => {
         this.route = "login";
+        await import("./views/login.js");
+        this.currentRoute = html`
+          <login-view></login-view>
+        `;
+      })
+      .on("register", async () => {
+        this.route = "register";
+        await import("./views/user-register.js");
+        this.currentRoute = html`
+          <user-register></user-register>
+        `;
       })
       .on("article/:id", params => {
         this.route = `artigo ${params.id}`;
@@ -42,9 +53,22 @@ class BlogApp extends LitElement {
   render() {
     return html`
       <nav-bar>
-        <div slot="left"></div>
-        <nav-item></nav-item>
-        <div slot="right"></div>
+        <div slot="left">
+          <nav-item
+            ?active=${this.route === "home"}
+            @click=${() => router.navigate("/home")}
+            >Home</nav-item
+          >
+          <nav-item
+            ?active=${this.route === "login"}
+            @click=${() => router.navigate("/login")}
+            >Login</nav-item
+          >
+        </div>
+
+        <div slot="right">
+          🚀
+        </div>
       </nav-bar>
       <div>
         ${this.currentRoute}

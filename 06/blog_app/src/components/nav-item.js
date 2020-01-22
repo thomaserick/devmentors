@@ -1,4 +1,4 @@
-import { LitElement, css, html } from "lit-element";
+import { LitElement, html, css } from "lit-element";
 
 class NavItem extends LitElement {
   static get styles() {
@@ -13,6 +13,7 @@ class NavItem extends LitElement {
       :host(:not(:last-child)) {
         margin-right: 15px;
       }
+
       :host([active]),
       :host(:hover) {
         opacity: 1;

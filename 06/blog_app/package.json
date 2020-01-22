@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.2",
     "lit-element": "^2.2.1",
     "navigo": "^7.1.2"
   },

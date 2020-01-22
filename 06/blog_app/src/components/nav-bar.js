@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, css, html } from "lit-element";
 
 export class NavBar extends LitElement {
   static get properties() {
