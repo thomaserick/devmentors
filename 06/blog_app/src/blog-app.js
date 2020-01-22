@@ -23,6 +23,9 @@ class BlogApp extends LitElement {
       .on("article/:id", params => {
         this.route = `artigo ${params.id}`;
       })
+      .on("", () => {
+        router.navigate("/home");
+      })
       .notFound(() => {
         this.route = "not found";
       })
