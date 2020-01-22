@@ -37,4 +37,6 @@ yarn start
 gitignore
 node_modules/
 
+vaadin
+
 yarn add navigo
