@@ -31,8 +31,12 @@ class BlogApp extends LitElement {
           <user-register></user-register>
         `;
       })
-      .on("article/:id", params => {
-        this.route = `artigo ${params.id}`;
+      .on("article/:id", async params => {
+        this.route = `article ${params}`;
+        await import("./views/articles.js");
+        this.currentRoute = html`
+          <articles-view .articleId="${params.id}"></articles-view>
+        `;
       })
       .on("", () => {
         router.navigate("/home");
@@ -63,6 +67,11 @@ class BlogApp extends LitElement {
             ?active=${this.route === "login"}
             @click=${() => router.navigate("/login")}
             >Login</nav-item
+          >
+          <nav-item
+            ?active=${this.route === "article"}
+            @click=${() => router.navigate("/login")}
+            >Artigos</nav-item
           >
         </div>
 
