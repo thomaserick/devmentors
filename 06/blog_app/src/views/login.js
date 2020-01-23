@@ -3,6 +3,7 @@ import "../components/form-field";
 import "../components/text-input";
 import "../components/password-input";
 import "../components/dm-button";
+import apiSevices from "../apiServices";
 import { router } from "../blog-app";
 
 class Login extends LitElement {
@@ -14,6 +15,7 @@ class Login extends LitElement {
       password: ""
     };
     this.submitted = false;
+    this.login = "";
   }
 
   static get properties() {
@@ -82,7 +84,12 @@ class Login extends LitElement {
         email: this.fields.email,
         password: this.fields.password
       };
-      console.log(user);
+
+      console.log(apiSevices.postLogin(user));
+
+      if (apiSevices.postLogin(user).ok) {
+        router.navigate("/login");
+      }
     }
   }
 }

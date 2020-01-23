@@ -17,8 +17,6 @@ class Home extends LitElement {
 
   async getArticles() {
     this.articles = await apiServices.getArticle();
-
-    console.log(this.articles);
   }
 
   static get styles() {
@@ -31,26 +29,21 @@ class Home extends LitElement {
         margin-top: 30px;
       }
       .post {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
         margin-bottom: 10px;
         border: 0px solid black;
         border-radius: 10px;
-        background-color: #f1efef;
+        background-color: white;
       }
-
+      .post-content{
+        padding: 20px;
+      }
       .post-title {
         padding: 5px 20px;
         font-weight: bold;
-        font-size: 28px;
-        background-color: #f1efef;
-      }
-      .post-content {
-        padding: 15px 30px;
-      }
-
-      .card {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        transition: 0.3s;
-        width: 40%;
+        font-size: 28px;        
+        color:#fff!important;
+        background-color:#2196F3 !important}
       }
 
       .container:hover {

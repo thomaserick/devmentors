@@ -5,6 +5,8 @@ import "./components/nav-item";
 
 export const router = new Navigo("/", true, "#");
 
+//Verificar se tem usuario logado
+
 class BlogApp extends LitElement {
   constructor() {
     super();
@@ -29,6 +31,13 @@ class BlogApp extends LitElement {
         await import("./views/user-register.js");
         this.currentRoute = html`
           <user-register></user-register>
+        `;
+      })
+      .on("new-article", async () => {
+        this.route = "new-article";
+        await import("./views/new-article.js");
+        this.currentRoute = html`
+          <new-article-view></new-article-view>
         `;
       })
       .on("article/:id", async params => {
@@ -63,19 +72,25 @@ class BlogApp extends LitElement {
             @click=${() => router.navigate("/home")}
             >Home</nav-item
           >
+
+          <nav-item
+            ?active=${this.route === "new-article"}
+            @click=${() => router.navigate("/new-article")}
+            >Criar Artigos</nav-item
+          >
+        </div>
+
+        <div slot="right">
           <nav-item
             ?active=${this.route === "login"}
             @click=${() => router.navigate("/login")}
             >Login</nav-item
           >
           <nav-item
-            ?active=${this.route === "article"}
-            @click=${() => router.navigate("/login")}
-            >Artigos</nav-item
+            ?active=${this.route === "logout"}
+            @click=${() => router.navigate("/home")}
+            >Logout</nav-item
           >
-        </div>
-
-        <div slot="right">
           🚀
         </div>
       </nav-bar>
@@ -85,5 +100,5 @@ class BlogApp extends LitElement {
     `;
   }
 }
-
+// 🚀
 window.customElements.define("blog-app", BlogApp);

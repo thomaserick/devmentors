@@ -1,6 +1,8 @@
 class ApiService {
-  baseUrl = "http://172.17.1.34:8080";
+  //  baseUrl = "http://172.17.1.34:8080";
+  baseUrl = "http://192.168.0.17:8080";
 
+  //Obter artigos Recentes
   getArticle() {
     return new Promise(async (resolve, reject) => {
       try {
@@ -13,6 +15,110 @@ class ApiService {
         resolve(data);
       } catch (err) {
         console.error("error", err.message);
+        reject(err);
+      }
+    });
+  }
+  //Obter Artigo
+  getArticleId(article) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await fetch(
+          `${this.baseUrl}/article/recent/${article}`,
+          {
+            mode: "cors",
+            credentials: "include",
+            method: "GET"
+          }
+        );
+        const data = await response.json();
+        resolve(data);
+      } catch (err) {
+        console.error("error", err.message);
+        reject(err);
+      }
+    });
+  }
+
+  //ObterComentarios
+  getComments(article) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await fetch(
+          `${this.baseUrl}/social/comments/${article}`,
+          {
+            mode: "cors",
+            credentials: "include",
+            method: "GET"
+          }
+        );
+        const data = await response.json();
+        resolve(data);
+      } catch (err) {
+        console.error("error", err.message);
+        reject(err);
+      }
+    });
+  }
+
+  //Obter usuário
+  getUserId({ email }) {
+    return new Promise(async resolve => {
+      try {
+        const response = await fetch(`${this.baseUrl}/security/user/${email}`, {
+          mode: "cors",
+          credentials: "include",
+          method: "GET"
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          resolve(data);
+        }
+      } catch (err) {
+        console.error("error", err.message);
+      }
+    });
+  }
+
+  //Realizar Login
+  postLogin(user) {
+    return new Promise(async resolve => {
+      try {
+        const response = await fetch(` ${this.baseUrl}/security/login`, {
+          mode: "cors",
+          credentials: "include",
+          method: "POST",
+          body: JSON.stringify(user.email),
+          headers: new Headers({
+            "content-type": "application/json"
+          })
+        });
+
+        resolve(response);
+        console.log(response);
+      } catch (err) {
+        console.error("error" + err.message);
+      }
+    });
+  }
+
+  addPost(post) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await fetch(`${this.apiURL}/article`, {
+          mode: "cors",
+          credentials: "include",
+          method: "POST",
+          body: JSON.stringify(article),
+          headers: new Headers({
+            "content-type": "application/json"
+          })
+        });
+        resolve(response);
+        console.log(response);
+      } catch (err) {
+        reject(err);
       }
     });
   }

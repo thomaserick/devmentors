@@ -5,6 +5,7 @@ import "../components/password-input";
 import "../components/dm-button";
 import "../components/dm-checkbox";
 import "../components/form-field";
+import { router } from "../blog-app";
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -120,7 +121,7 @@ class UserRegister extends LitElement {
             value="Cancelar"
             @click="${this.cancel}"
           ></dm-button>
-          <dm-button primary value="Enviar" @click="${this.submit}"></dm-button>
+          <dm-button success value="Enviar" @click="${this.submit}"></dm-button>
         </div>
       </div>
     `;
@@ -133,6 +134,8 @@ class UserRegister extends LitElement {
       password: "",
       password2: ""
     };
+
+    router.navigate("/login");
   }
 
   submit() {
@@ -147,7 +150,7 @@ class UserRegister extends LitElement {
         password: this.fields.password
       };
 
-      new apiSevices.postNewUser(user);
+      const response = new apiSevices.postNewUser(user);
     }
   }
 
@@ -162,12 +165,14 @@ class UserRegister extends LitElement {
       return true;
     };
     requiredValidation("name");
+
     if (requiredValidation("email")) {
       if (this.fields.email && !emailRegex.test(this.fields.email)) {
         invalidMessages.email = "E-mail inválido";
       }
     }
     requiredValidation("password");
+
     if (requiredValidation("password2")) {
       if (this.fields.password !== this.fields.password2) {
         invalidMessages.password2 = "Senhas não conferem";
