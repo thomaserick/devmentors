@@ -150,7 +150,11 @@ class UserRegister extends LitElement {
         password: this.fields.password
       };
 
-      const response = new apiSevices.postNewUser(user);
+      const response = apiSevices.postNewUser(user);
+      console.log(response);
+      if (response.status == 204) {
+        router.navigate("/login");
+      }
     }
   }
 

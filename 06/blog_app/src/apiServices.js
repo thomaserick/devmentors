@@ -1,6 +1,6 @@
 class ApiService {
-  //  baseUrl = "http://172.17.1.34:8080";
-  baseUrl = "http://192.168.0.17:8080";
+  baseUrl = "http://172.17.1.38:8080";
+  //baseUrl = "http://192.168.0.17:8080";
 
   //Obter artigos Recentes
   getArticle() {
@@ -89,7 +89,28 @@ class ApiService {
           mode: "cors",
           credentials: "include",
           method: "POST",
-          body: JSON.stringify(user.email),
+          body: JSON.stringify(user),
+          headers: new Headers({
+            "content-type": "application/json"
+          })
+        });
+        console.log(response);
+        resolve(response);
+      } catch (err) {
+        console.error("error" + err.message);
+      }
+    });
+  }
+
+  //Realizar Cadastro de novo usúario
+  postNewUser(user) {
+    return new Promise(async resolve => {
+      try {
+        const response = await fetch(` ${this.baseUrl}/security/user`, {
+          mode: "cors",
+          credentials: "include",
+          method: "POST",
+          body: JSON.stringify(user),
           headers: new Headers({
             "content-type": "application/json"
           })
@@ -106,17 +127,16 @@ class ApiService {
   addPost(post) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await fetch(`${this.apiURL}/article`, {
+        const response = await fetch(`${this.baseUrl}/article`, {
           mode: "cors",
           credentials: "include",
           method: "POST",
-          body: JSON.stringify(article),
+          body: JSON.stringify(post),
           headers: new Headers({
             "content-type": "application/json"
           })
         });
         resolve(response);
-        console.log(response);
       } catch (err) {
         reject(err);
       }

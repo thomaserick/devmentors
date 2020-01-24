@@ -56,10 +56,14 @@ class Login extends LitElement {
       <div class="container">
         <h2 class="view-title">Portal do Usuário</h2>
         <br />
-        <form-field title="E-mail"> <text-input></text-input> </form-field>
+        <form-field title="E-mail">
+          <text-input @change="${this.handleChange("email")}"></text-input>
+        </form-field>
 
         <form-field title="Senha">
-          <password-input></password-input>
+          <password-input
+            @change="${this.handleChange("password")}"
+          ></password-input>
         </form-field>
 
         <div class="footer">
@@ -74,7 +78,7 @@ class Login extends LitElement {
     `;
   }
 
-  submit() {
+  async submit() {
     this.submitted = true;
 
     if (Object.keys(this.invalidMessages).length > 0) {
@@ -85,12 +89,17 @@ class Login extends LitElement {
         password: this.fields.password
       };
 
-      console.log(apiSevices.postLogin(user));
-
-      if (apiSevices.postLogin(user).ok) {
-        router.navigate("/login");
+      const response = await apiSevices.postLogin(user);
+      if (response.ok) {
+        router.navigate("/home");
       }
     }
+  }
+
+  handleChange(field) {
+    return e => {
+      this.fields = { ...this.fields, [field]: e.detail.value };
+    };
   }
 }
 

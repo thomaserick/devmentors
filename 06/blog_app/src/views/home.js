@@ -29,21 +29,21 @@ class Home extends LitElement {
         margin-top: 30px;
       }
       .post {
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         margin-bottom: 10px;
         border: 0px solid black;
         border-radius: 10px;
         background-color: white;
       }
-      .post-content{
+      .post-content {
         padding: 20px;
       }
       .post-title {
         padding: 5px 20px;
         font-weight: bold;
-        font-size: 28px;        
-        color:#fff!important;
-        background-color:#2196F3 !important}
+        font-size: 28px;
+        color: #fff !important;
+        background-color: #2196f3 !important;
       }
 
       .container:hover {

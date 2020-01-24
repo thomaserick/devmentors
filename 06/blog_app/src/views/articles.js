@@ -4,7 +4,7 @@ import apiServices from "../apiServices";
 class Articles extends LitElement {
   constructor() {
     super();
-    //this.getArticlesId();
+    this.article = {};
   }
 
   static get properties() {
@@ -15,9 +15,9 @@ class Articles extends LitElement {
   }
 
   async getArticlesId() {
-    this.article = await apiServices.getArticleId();
-
-    console.log(this.articles);
+    console.log('teste  ')
+    this.article = await apiServices.getArticleId(this.articlesId);
+    console.log(this.article  );
   }
 
   static get styles() {
@@ -86,23 +86,21 @@ class Articles extends LitElement {
 
   render() {
     console.log(this.articleId);
+    //   var data = new Date(article.creationDate);
+    //  ${data.toLocaleString()}
     return html`
       <div id="posts" class="container">
-        <div class="post">
-          <div class="post-title">Meu Post</div>
 
-          <div class="post-content">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </div>
-        </div>
+      ${this.articlesId.map(
+        articleId =>
+          html`
+            <div class="post">
+              <div class="post-title">${articlesId.title}</div>
+              <div class="post-content">${articlesId.content}</div>
+            </div>
+          `
+      )}
+
 
         <h3>Comentários</h4>
 
@@ -133,6 +131,10 @@ class Articles extends LitElement {
         
       </div>
     `;
+  }
+
+  firstUpdated() {
+    this.getArticlesId();
   }
 }
 

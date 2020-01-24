@@ -93,14 +93,12 @@ class NewArticle extends LitElement {
           title="Conteúdo"
           .errorMessage=${this.getInvalidMessage("content")}
         >
-          <textarea
+          <text-input
             ?invalid=${this.isFieldInvalid("content")}
             .value="${this.fields.content}"
             @change="${this.handleChange("content")}"
-            rows="10"
-            cols="100%"
           >
-          </textarea>
+          </text-input>
         </form-field>
 
         <div class="footer">
@@ -114,9 +112,8 @@ class NewArticle extends LitElement {
     `;
   }
 
-  submit() {
+  async submit() {
     this.submitted = true;
-    console.log(this.invalidMessages);
 
     if (
       Object.keys(this.invalidMessages).length > 0 ||
@@ -125,15 +122,16 @@ class NewArticle extends LitElement {
       console.log("Invalid!", this.invalidMessages);
     } else {
       const post = {
-        name: this.fields.title,
-        content: this.fields.content
+        content: this.fields.content,
+        title: this.fields.title
       };
 
-      //const response = await apiSevices.newPost(post);
-      //router.navigate('/home');
-      console.log(this.post);
-
-      //const response = new apiSevices.NewArticle(post);
+      console.log(post);
+      const response = await apiSevices.addPost(post);
+      console.log(response);  
+      if (response.ok) {
+        router.navigate("/home");
+      }
     }
   }
 

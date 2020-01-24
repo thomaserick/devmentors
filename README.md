@@ -40,3 +40,6 @@ node_modules/
 vaadin
 
 yarn add navigo
+
+npm init 
+yarn build
