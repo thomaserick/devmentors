@@ -5,19 +5,21 @@ class Articles extends LitElement {
   constructor() {
     super();
     this.article = {};
+    this.comments = [];
   }
 
   static get properties() {
     return {
       // Number, Boolean, Object, Array, String
-      articleId: { type: Number }
+      articleId: { type: Number },
+      article: { type: Array },
+      comments: { type: Array }
     };
   }
 
   async getArticlesId() {
-    console.log('teste  ')
-    this.article = await apiServices.getArticleId(this.articlesId);
-    console.log(this.article  );
+    this.article = await apiServices.getArticleId(this.articleId);
+    this.comments = await apiServices.getComments(this.articleId);
   }
 
   static get styles() {
@@ -47,9 +49,22 @@ class Articles extends LitElement {
         color:#fff!important;
         background-color:#2196F3 !important}
       }
-    
+          
       .post:hover {
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+      }
+      .post-author {
+        padding: 10px;
+        float: right;
+        font-size: 12px;
+        font-weight: normal;
+      }
+      .post-link {
+        font-weight: bold;
+        padding: 5px;
+      }
+      .post-link a {
+        cursor: pointer;
       }
      
       .comments {
@@ -85,50 +100,39 @@ class Articles extends LitElement {
   }
 
   render() {
-    console.log(this.articleId);
-    //   var data = new Date(article.creationDate);
-    //  ${data.toLocaleString()}
+    let { title, author, creationDate, content } = this.article;
+
     return html`
       <div id="posts" class="container">
-
-      ${this.articlesId.map(
-        articleId =>
-          html`
-            <div class="post">
-              <div class="post-title">${articlesId.title}</div>
-              <div class="post-content">${articlesId.content}</div>
+        <div class="post">
+          <div class="post-title">
+            ${title}
+            <div class="post-author">
+              Postado por: ${author} ${new Date(creationDate).toLocaleString()}
             </div>
-          `
-      )}
-
-
-        <h3>Comentários</h4>
-
-        <div class="comments">        
-          <div class="comments-title">
-            Jane Doe
-            <div class="comments-date">10/10/2019</div>
           </div>
-
-          <div class="comments-list">
-            <p>Interior Designer</p>
-          </div>
-
+          <div class="post-content">${content}</div>
         </div>
+        <h3>${this.comments.length} Comentários</h3>
 
-        <div class="comments">        
-          <div class="comments-title">
-            Jane Doe
-            <div class="comments-date">10/10/2019</div>
-          </div>
+        ${this.comments.map(
+          comment =>
+            html`
+              <div class="comments">
+                <div class="comments-title">
+                  ${comment.author}
+                  <div class="comments-date">
+                    ${new Date(comment.creationDate).toLocaleString()}
+                  </div>
+                </div>
+                <div class="comments-list">
+                  <p>${comment.comment}</p>
+                </div>
+              </div>
+            `
+        )}
 
-          <div class="comments-list">
-            <p>Interior Designer</p>
-          </div>
-
-        </div>
-        
-        
+        <h3>Comentar</h3>
       </div>
     `;
   }

@@ -126,11 +126,14 @@ class NewArticle extends LitElement {
         title: this.fields.title
       };
 
-      console.log(post);
       const response = await apiSevices.addPost(post);
-      console.log(response);  
       if (response.ok) {
         router.navigate("/home");
+      } else {
+        if (response.status === 401) {
+          alert("Você precisa fazer login ou se inscrever antes de continuar.");
+          router.navigate("/login");
+        }
       }
     }
   }

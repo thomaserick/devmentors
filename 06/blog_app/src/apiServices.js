@@ -1,6 +1,6 @@
 class ApiService {
-  baseUrl = "http://172.17.1.38:8080";
-  //baseUrl = "http://192.168.0.17:8080";
+  //baseUrl = "http://172.17.1.38:8080";
+  baseUrl = "http://192.168.0.17:8080";
 
   //Obter artigos Recentes
   getArticle() {
@@ -23,14 +23,11 @@ class ApiService {
   getArticleId(article) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await fetch(
-          `${this.baseUrl}/article/recent/${article}`,
-          {
-            mode: "cors",
-            credentials: "include",
-            method: "GET"
-          }
-        );
+        const response = await fetch(`${this.baseUrl}/article/${article}`, {
+          mode: "cors",
+          credentials: "include",
+          method: "GET"
+        });
         const data = await response.json();
         resolve(data);
       } catch (err) {

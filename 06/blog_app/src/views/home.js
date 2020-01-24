@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit-element";
 import apiServices from "../apiServices";
+import { router } from "../blog-app";
 
 class Home extends LitElement {
   constructor() {
@@ -49,24 +50,58 @@ class Home extends LitElement {
       .container:hover {
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
       }
+      .post-author {
+        padding: 10px;
+        float: right;
+        font-size: 12px;
+        font-weight: normal;
+      }
+      .post-link {
+        font-weight: bold;
+        padding: 5px;
+      }
+      .post-link a {
+        cursor: pointer;
+      }
     `;
   }
 
   render() {
     return html`
-        ${this.articles.map(
-          articles => html`
+      ${this.articles.map(
+        articles =>
+          html`
             <div id="posts" class="container">
               <div class="post">
-                <div class="post-title">${articles.title}</div>
-                <hr />
-                <div class="post-content">${articles.content}</div>
+                      <div class="post-title">
+                      ${articles.title}
+                              <div class="post-author">Postado por: ${
+                                articles.author
+                              }                 
+                              ${new Date(
+                                articles.creationDate
+                              ).toLocaleString()}                
+                              </div>
+                      </div>  
+
+                      <div class="post-content">${articles.content}</div>
+                       <div class="post-link" @click="${this.article(
+                         articles.id
+                       )}">
+                           <a>Visualizar artigo completo...</a>
+                       </div>
+                      </div>   
               </div>
             </div>
           `
-        )}
-      </div>
+      )}
     `;
+  }
+
+  article(id) {
+    return e => {
+      router.navigate(`/article/${id}`);
+    };
   }
 }
 
