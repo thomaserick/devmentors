@@ -58,6 +58,26 @@ class ApiService {
     });
   }
 
+  //New comments
+  addComments(comments) {
+    return new Promise(async resolve => {
+      try {
+        const response = await fetch(` ${this.baseUrl}/social/comment`, {
+          mode: "cors",
+          credentials: "include",
+          method: "POST",
+          body: JSON.stringify(comments),
+          headers: new Headers({
+            "content-type": "application/json"
+          })
+        });
+        resolve(response);
+      } catch (err) {
+        console.error("error" + err.message);
+      }
+    });
+  }
+
   //Obter usuário
   getUserId({ email }) {
     return new Promise(async resolve => {
@@ -140,18 +160,5 @@ class ApiService {
     });
   }
 }
-
-// export async function cadArticle(article) {
-//   const response = await fetch("http://localhost:8080/article", {
-//     mode: "cors",
-//     credentials: "include",
-//     method: "POST",
-//     body: JSON.stringify(article),
-//     headers: new Headers({
-//       "content-type": "application/json"
-//     })
-//   });
-//   console.log(response.status);
-// }
 
 export default new ApiService();

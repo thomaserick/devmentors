@@ -1,10 +1,17 @@
 import { LitElement, html, css } from "lit-element";
 import apiServices from "../apiServices";
+import "../components/text-input";
+import "../components/dm-button";
+import "../components/form-field";
 
 class Articles extends LitElement {
   constructor() {
     super();
     this.article = {};
+    this.invalidMessages = {};
+    this.fields = {
+      comment: ""
+    };
     this.comments = [];
   }
 
@@ -13,7 +20,10 @@ class Articles extends LitElement {
       // Number, Boolean, Object, Array, String
       articleId: { type: Number },
       article: { type: Array },
-      comments: { type: Array }
+      comments: { type: Array },
+      invalidMessages: { type: Object },
+      fields: { type: Object },
+      submitted: { type: Boolean }
     };
   }
 
@@ -93,7 +103,13 @@ class Articles extends LitElement {
         font-size: 12px;  
         font-weight: normal;
       }
-  
+      .footer {
+        padding:5px;
+        text-align: right;
+      }
+      form-field{
+        margin-bottom:0;
+      }
 
 
     `;
@@ -132,13 +148,95 @@ class Articles extends LitElement {
             `
         )}
 
-        <h3>Comentar</h3>
+        <form-field
+          title="Comenta"
+          .errorMessage=${this.getInvalidMessage("comment")}
+        >
+          <text-input
+            ?invalid=${this.isFieldInvalid("comment")}
+            .value="${this.fields.comment}"
+            maxlength="255"
+            @change="${this.handleChange("comment")}"
+          >
+          </text-input>
+        </form-field>
+        <div class="footer">
+          <dm-button primary value="Enviar" @click="${this.submit}"></dm-button>
+        </div>
       </div>
     `;
   }
 
   firstUpdated() {
     this.getArticlesId();
+  }
+
+  async submit() {
+    this.submitted = true;
+
+    if (
+      Object.keys(this.invalidMessages).length > 0 ||
+      this.fields.comment == ""
+    ) {
+      console.log("Invalid!", this.invalidMessages);
+    } else {
+      const newComment = {
+        articleId: this.articleId,
+        comment: this.fields.comment
+      };
+
+      const response = await apiServices.addComments(newComment);
+      if (response.ok) {
+        //alert("Comentário cadastrado com Sucesso!");
+        this.fields.comment = "";
+        this.getArticlesId();
+      } else {
+        if (response.status === 401) {
+          alert("Você precisa fazer login ou se inscrever antes de continuar.");
+          router.navigate("/login");
+        }
+      }
+    }
+  }
+
+  validate() {
+    const invalidMessages = {};
+
+    const requiredValidation = name => {
+      if (this.submitted && !this.fields[name]) {
+        invalidMessages[name] = "Este campo é obrigatório.";
+        return false;
+      }
+      return true;
+    };
+    requiredValidation("comment");
+    this.invalidMessages = invalidMessages;
+  }
+
+  getInvalidMessage(fieldName) {
+    if (this.invalidMessages.hasOwnProperty(fieldName)) {
+      return this.invalidMessages[fieldName];
+    }
+    return undefined;
+  }
+
+  isFieldInvalid(key) {
+    if (this.invalidMessages.hasOwnProperty(key)) {
+      return this.invalidMessages[key];
+    }
+    return undefined;
+  }
+
+  handleChange(field) {
+    return e => {
+      this.fields = { ...this.fields, [field]: e.detail.value };
+    };
+  }
+
+  updated(changedProperties) {
+    if (changedProperties.has("fields") || changedProperties.has("submitted")) {
+      this.validate();
+    }
   }
 }
 

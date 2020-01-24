@@ -2,11 +2,11 @@
 # Projeto Final
 
 ## Telas
- - Criação de conta
- - Login
- - Home (listagem de artigos)
- - Cadastro de artigo
- - Visualização de artigo
+ <!-- - Criação de conta -->
+ <!-- - Login -->
+ <!-- - Home (listagem de artigos) -->
+ <!-- - Cadastro de artigo -->
+ <!-- - Visualização de artigo -->
 
 ### Detalhes telas
 Criação de conta: 

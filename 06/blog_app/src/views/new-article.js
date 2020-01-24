@@ -3,6 +3,7 @@ import apiSevices from "../apiServices";
 import "../components/text-input";
 import "../components/dm-button";
 import "../components/form-field";
+import "../components/text-area";
 import { router } from "../blog-app";
 
 class NewArticle extends LitElement {
@@ -53,22 +54,6 @@ class NewArticle extends LitElement {
       .footer {
         text-align: right;
       }
-
-      textarea {
-        padding: 7px 15px;
-        border-color: #cacaca;
-        border-style: solid;
-        border-radius: 4px;
-        border-width: 2px;
-        transition: border-color ease 0.2s;
-        display: block;
-        width: calc(100% - 30px);
-        color: black;
-      }
-
-      textarea:focus {
-        outline: none;
-      }
     `;
   }
 
@@ -84,6 +69,7 @@ class NewArticle extends LitElement {
           <text-input
             ?invalid=${this.isFieldInvalid("title")}
             .value="${this.fields.title}"
+            maxlength="255"
             @change="${this.handleChange("title")}"
           >
           </text-input>
@@ -93,12 +79,14 @@ class NewArticle extends LitElement {
           title="Conteúdo"
           .errorMessage=${this.getInvalidMessage("content")}
         >
-          <text-input
+          <text-area
             ?invalid=${this.isFieldInvalid("content")}
             .value="${this.fields.content}"
+            rows="8"
+            maxlength="4000"
             @change="${this.handleChange("content")}"
           >
-          </text-input>
+          </text-area>
         </form-field>
 
         <div class="footer">
@@ -115,10 +103,7 @@ class NewArticle extends LitElement {
   async submit() {
     this.submitted = true;
 
-    if (
-      Object.keys(this.invalidMessages).length > 0 ||
-      this.invalidMessages === null
-    ) {
+    if (Object.keys(this.invalidMessages).length > 0) {
       console.log("Invalid!", this.invalidMessages);
     } else {
       const post = {
