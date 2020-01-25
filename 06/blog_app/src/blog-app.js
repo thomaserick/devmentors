@@ -2,17 +2,18 @@ import { LitElement, html, css } from "lit-element";
 import Navigo from "navigo";
 import "./components/nav-bar";
 import "./components/nav-item";
+import apiServices from "./apiServices";
 
 export const router = new Navigo("/", true, "#");
-
-//Verificar se tem usuario logado
 
 class BlogApp extends LitElement {
   constructor() {
     super();
 
     router
+
       .on("home", async () => {
+        this.getCurrentUser();
         this.router = "home";
         await import("./views/home.js");
         this.currentRoute = html`
@@ -59,8 +60,19 @@ class BlogApp extends LitElement {
   static get properties() {
     return {
       route: { type: String },
-      currentRoute: { type: Object }
+      currentRoute: { type: Object },
+      currentUser: { type: Boolean },
+      nameCurrentUser: { type: String }
     };
+  }
+
+  static get styles() {
+    return css`
+      p {
+        margin: auto;
+        padding-right: 20px;
+      }
+    `;
   }
 
   render() {
@@ -73,31 +85,58 @@ class BlogApp extends LitElement {
             >Home</nav-item
           >
 
-          <nav-item
-            ?active=${this.route === "new-article"}
-            @click=${() => router.navigate("/new-article")}
-            >Criar Artigos</nav-item
-          >
+          ${this.currentUser
+            ? html`
+                <nav-item
+                  ?active=${this.route === "new-article"}
+                  @click=${() => router.navigate("/new-article")}
+                  >Criar Artigos</nav-item
+                >
+              `
+            : ""}
         </div>
 
         <div slot="right">
-          <nav-item
-            ?active=${this.route === "login"}
-            @click=${() => router.navigate("/login")}
-            >Login</nav-item
-          >
-          <nav-item
-            ?active=${this.route === "logout"}
-            @click=${() => router.navigate("/home")}
-            >Logout</nav-item
-          >
-          🚀
+          ${this.currentUser
+            ? html`
+                <p>Bem vindo: ${this.nameCurrentUser}</p>
+                <nav-item
+                  ?active=${this.route === "logout"}
+                  @click=${this.logout}
+                  >Logout</nav-item
+                >
+              `
+            : html`
+                <nav-item
+                  ?active=${this.route === "login"}
+                  @click=${() => router.navigate("/login")}
+                  >Login</nav-item
+                >
+              `}
         </div>
       </nav-bar>
       <div>
         ${this.currentRoute}
       </div>
     `;
+  }
+
+  async logout() {
+    const response = await apiServices.logout();
+    if (response.ok) {
+      alert("Usuário deslogado com Sucesso!");
+      this.currentUser = false;
+      router.navigate("/home");
+    }
+  }
+
+  async getCurrentUser() {
+    this.currentUser = false;
+    const response = await apiServices.getCurrentUser();
+    if (response.id > 0) {
+      this.currentUser = true;
+      this.nameCurrentUser = response.name;
+    }
   }
 }
 // 🚀

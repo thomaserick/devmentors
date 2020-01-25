@@ -3,6 +3,7 @@ import apiServices from "../apiServices";
 import "../components/text-input";
 import "../components/dm-button";
 import "../components/form-field";
+import { router } from "../blog-app";
 
 class Articles extends LitElement {
   constructor() {
@@ -149,7 +150,7 @@ class Articles extends LitElement {
         )}
 
         <form-field
-          title="Comenta"
+          title="Comentar"
           .errorMessage=${this.getInvalidMessage("comment")}
         >
           <text-input

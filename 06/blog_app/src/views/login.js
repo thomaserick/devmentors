@@ -6,6 +6,8 @@ import "../components/dm-button";
 import apiSevices from "../apiServices";
 import { router } from "../blog-app";
 
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 class Login extends LitElement {
   constructor() {
     super();
@@ -56,12 +58,22 @@ class Login extends LitElement {
       <div class="container">
         <h2 class="view-title">Portal do Usuário</h2>
         <br />
-        <form-field title="E-mail">
-          <text-input @change="${this.handleChange("email")}"></text-input>
+        <form-field title="E-mail"
+        .errorMessage=${this.getInvalidMessage("email")}
+        >
+          <text-input
+           @change="${this.handleChange("email")}"
+          ?invalid=${this.isFieldInvalid("email")}
+          .value="${this.fields.email}"          
+          "></text-input>
         </form-field>
 
-        <form-field title="Senha">
+        <form-field title="Senha" 
+        .errorMessage=${this.getInvalidMessage("password")}
+        >
           <password-input
+            ?invalid=${this.isFieldInvalid("password")}
+            .value="${this.fields.password}"
             @change="${this.handleChange("password")}"
           ></password-input>
         </form-field>
@@ -81,7 +93,10 @@ class Login extends LitElement {
   async submit() {
     this.submitted = true;
 
-    if (Object.keys(this.invalidMessages).length > 0) {
+    if (
+      Object.keys(this.invalidMessages).length > 0 ||
+      this.fields.email == ""
+    ) {
       console.log("Invalid!", this.invalidMessages);
     } else {
       const user = {
@@ -91,15 +106,60 @@ class Login extends LitElement {
 
       const response = await apiSevices.postLogin(user);
       if (response.ok) {
+        alert("Usuário autenticado com Sucesso!");
         router.navigate("/home");
+      } else {
+        let reject = await response.json();
+        alert("Não foi possivel autenticar o Login! \n\n" + reject.message);
       }
     }
+  }
+
+  validate() {
+    const invalidMessages = {};
+
+    const requiredValidation = name => {
+      if (this.submitted && !this.fields[name]) {
+        invalidMessages[name] = "Este campo é obrigatório.";
+        return false;
+      }
+      return true;
+    };
+
+    if (requiredValidation("email")) {
+      if (this.fields.email && !emailRegex.test(this.fields.email)) {
+        invalidMessages.email = "E-mail inválido";
+      }
+    }
+    requiredValidation("password");
+
+    this.invalidMessages = invalidMessages;
+  }
+
+  getInvalidMessage(fieldName) {
+    if (this.invalidMessages.hasOwnProperty(fieldName)) {
+      return this.invalidMessages[fieldName];
+    }
+    return undefined;
+  }
+
+  isFieldInvalid(key) {
+    if (this.invalidMessages.hasOwnProperty(key)) {
+      return this.invalidMessages[key];
+    }
+    return undefined;
   }
 
   handleChange(field) {
     return e => {
       this.fields = { ...this.fields, [field]: e.detail.value };
     };
+  }
+
+  updated(changedProperties) {
+    if (changedProperties.has("fields") || changedProperties.has("submitted")) {
+      this.validate();
+    }
   }
 }
 

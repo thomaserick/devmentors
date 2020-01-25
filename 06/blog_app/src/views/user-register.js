@@ -138,10 +138,13 @@ class UserRegister extends LitElement {
     router.navigate("/login");
   }
 
-  submit() {
+  async submit() {
     this.submitted = true;
 
-    if (Object.keys(this.invalidMessages).length > 0) {
+    if (
+      Object.keys(this.invalidMessages).length > 0 ||
+      this.fields.email == ""
+    ) {
       console.log("Invalid!", this.invalidMessages);
     } else {
       const user = {
@@ -150,10 +153,13 @@ class UserRegister extends LitElement {
         password: this.fields.password
       };
 
-      const response = apiSevices.postNewUser(user);
-      console.log(response);
+      const response = await apiSevices.postNewUser(user);
       if (response.status == 204) {
+        alert("Usuário cadastrado com Sucesso!");
         router.navigate("/login");
+      } else {
+        let reject = await response.json();
+        alert("Erro ao cadastrar o usuário! \n\n" + reject.message);
       }
     }
   }

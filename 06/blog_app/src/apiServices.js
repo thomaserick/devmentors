@@ -78,11 +78,11 @@ class ApiService {
     });
   }
 
-  //Obter usuário
-  getUserId({ email }) {
+  //Obter usuário Atual
+  getCurrentUser() {
     return new Promise(async resolve => {
       try {
-        const response = await fetch(`${this.baseUrl}/security/user/${email}`, {
+        const response = await fetch(`${this.baseUrl}/security/user/`, {
           mode: "cors",
           credentials: "include",
           method: "GET"
@@ -111,7 +111,6 @@ class ApiService {
             "content-type": "application/json"
           })
         });
-        console.log(response);
         resolve(response);
       } catch (err) {
         console.error("error" + err.message);
@@ -134,7 +133,22 @@ class ApiService {
         });
 
         resolve(response);
-        console.log(response);
+      } catch (err) {
+        console.log("error" + err.message);
+      }
+    });
+  }
+
+  //Logout
+  logout() {
+    return new Promise(async resolve => {
+      try {
+        const response = await fetch(`${this.baseUrl}/security/logout`, {
+          mode: "cors",
+          credentials: "include",
+          method: "GET"
+        });
+        resolve(response);
       } catch (err) {
         console.error("error" + err.message);
       }
@@ -155,6 +169,7 @@ class ApiService {
         });
         resolve(response);
       } catch (err) {
+        console.log("error" + err.message);
         reject(err);
       }
     });
