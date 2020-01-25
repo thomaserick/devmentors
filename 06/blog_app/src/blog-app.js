@@ -2,7 +2,7 @@ import { LitElement, html, css } from "lit-element";
 import Navigo from "navigo";
 import "./components/nav-bar";
 import "./components/nav-item";
-import apiServices from "./apiServices";
+import apiServices from "./services/apiServices";
 
 export const router = new Navigo("/", true, "#");
 

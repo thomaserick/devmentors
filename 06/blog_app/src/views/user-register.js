@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit-element";
-import apiSevices from "../apiServices";
+import apiSevices from "../services/apiServices";
 import "../components/text-input";
 import "../components/password-input";
 import "../components/dm-button";

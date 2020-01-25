@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit-element";
-import apiServices from "../apiServices";
+import apiServices from "../services/apiServices";
 import { router } from "../blog-app";
+import "../components/fav-button";
 
 class Home extends LitElement {
   constructor() {
@@ -63,6 +64,16 @@ class Home extends LitElement {
       .post-link a {
         cursor: pointer;
       }
+
+      .button {
+        background-repeat: no-repeat;
+        background-image: url("./src/img/star.png");
+        height: 25px;
+        width: 25px;
+        float: right;
+        background-size: 20px;
+        margin-right: 10px;
+      }
     `;
   }
 
@@ -73,29 +84,37 @@ class Home extends LitElement {
           html`
             <div id="posts" class="container">
               <div class="post">
-                      <div class="post-title">
-                      ${articles.title}
-                              <div class="post-author">Postado por: ${
-                                articles.author
-                              }                 
-                              ${new Date(
-                                articles.creationDate
-                              ).toLocaleString()}                
-                              </div>
-                      </div>  
+                <div class="post-title">
+                  ${articles.title}
+                  <div class="post-author">
+                    Postado por: ${articles.author}
+                    ${new Date(articles.creationDate).toLocaleString()}
+                  </div>
+                </div>
 
-                      <div class="post-content">${articles.content}</div>
-                       <div class="post-link" @click="${this.article(
-                         articles.id
-                       )}">
-                           <a>Visualizar artigo completo...</a>
-                       </div>
-                      </div>   
+                <div class="post-content">${articles.content}</div>
+                <button
+                  type="button"
+                  class="button"
+                  @click="${this.buttonClick()}"
+                ></button>
+                <div class="post-link">
+                  <a @click="${this.article(articles.id)}"
+                    >Visualizar artigo completo...</a
+                  >
+                </div>
               </div>
             </div>
           `
       )}
     `;
+  }
+
+  buttonClick(e) {
+    return e => {
+      console.log(e.target.style.backgroundImage);
+      e.target.style.backgroundImage = "url('./src/img/star-active.png')";
+    };
   }
 
   article(id) {

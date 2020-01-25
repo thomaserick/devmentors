@@ -3,7 +3,7 @@ import "../components/form-field";
 import "../components/text-input";
 import "../components/password-input";
 import "../components/dm-button";
-import apiSevices from "../apiServices";
+import apiSevices from "../services/apiServices";
 import { router } from "../blog-app";
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -17,14 +17,15 @@ class Login extends LitElement {
       password: ""
     };
     this.submitted = false;
-    this.login = "";
+    this.alert = "";
   }
 
   static get properties() {
     return {
       invalidMessages: { type: Object },
       fields: { type: Object },
-      submitted: { type: Boolean }
+      submitted: { type: Boolean },
+      alert: { type: String }
     };
   }
 
@@ -49,6 +50,29 @@ class Login extends LitElement {
       }
       .footer {
         text-align: center;
+      }
+
+      @keyframes hide {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      .alert-box {
+        animation: hide 2s 2s forwards;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+      }
+
+      .error {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
       }
     `;
   }
@@ -77,7 +101,8 @@ class Login extends LitElement {
             @change="${this.handleChange("password")}"
           ></password-input>
         </form-field>
-
+       
+       
         <div class="footer">
           <dm-button success value="Logar" @click="${this.submit}"></dm-button>
           <dm-button
@@ -86,6 +111,7 @@ class Login extends LitElement {
             @click="${() => router.navigate("/register")}"
           ></dm-button>
         </div>
+
       </div>
     `;
   }
