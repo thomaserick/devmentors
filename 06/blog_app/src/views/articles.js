@@ -14,8 +14,9 @@ class Articles extends LitElement {
       comment: ""
     };
     this.comments = [];
-    this.currentUser = true;
+    this.currentUser = false;
     this.likes = 0;
+    this.getCurrentUser();
   }
 
   static get properties() {
@@ -27,13 +28,20 @@ class Articles extends LitElement {
       invalidMessages: { type: Object },
       fields: { type: Object },
       submitted: { type: Boolean },
-      likes: { type: Number }
+      likes: { type: Number },
+      currentUser: { type: Number }
     };
   }
 
   async getArticlesId() {
     this.article = await apiServices.getArticleId(this.articleId);
     this.comments = await apiServices.getComments(this.articleId);
+  }
+  async getCurrentUser() {
+    const response = await apiServices.getCurrentUser();
+    if (response.id > 0) {
+      this.currentUser = true;
+    }
   }
 
   static get styles() {
@@ -171,6 +179,7 @@ class Articles extends LitElement {
                 <div class="comments-list">
                   <p>${comment.comment}</p>
                 </div>
+
                 <div class="like">
                   <img
                     @click=${this.addLikes}
@@ -178,6 +187,7 @@ class Articles extends LitElement {
                     alt="Cutir"
                     width="32"
                     height="32"
+                    title="Curtir"
                   />
                   <div class="like-title">
                     <b>${this.likes}</b>
@@ -207,7 +217,9 @@ class Articles extends LitElement {
   }
 
   addLikes() {
-    this.likes++;
+    if (this.currentUser) {
+      this.likes++;
+    }
   }
 
   firstUpdated() {
