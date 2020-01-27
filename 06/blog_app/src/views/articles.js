@@ -14,6 +14,8 @@ class Articles extends LitElement {
       comment: ""
     };
     this.comments = [];
+    this.currentUser = true;
+    this.likes = 0;
   }
 
   static get properties() {
@@ -24,7 +26,8 @@ class Articles extends LitElement {
       comments: { type: Array },
       invalidMessages: { type: Object },
       fields: { type: Object },
-      submitted: { type: Boolean }
+      submitted: { type: Boolean },
+      likes: { type: Number }
     };
   }
 
@@ -112,6 +115,29 @@ class Articles extends LitElement {
         margin-bottom:0;
       }
 
+      .button {
+        background-repeat: no-repeat;
+        background-image: url("./src/img/curtir.png");
+        height: 25px;
+        width: 25px;
+        float: right;
+        background-size: 20px;
+        margin-right: 10px;
+      }
+
+      .like{
+           text-align:-webkit-right;
+           padding: 5px;   
+           font-size: 15px;
+           font-weight: normal;
+           
+      }
+      .like-title {
+        float:right;  
+        margin-top: 10px;
+        padding-left:inherite;       
+      }
+
 
     `;
   }
@@ -145,6 +171,18 @@ class Articles extends LitElement {
                 <div class="comments-list">
                   <p>${comment.comment}</p>
                 </div>
+                <div class="like">
+                  <img
+                    @click=${this.addLikes}
+                    src="../src/img/curtir.png"
+                    alt="Cutir"
+                    width="32"
+                    height="32"
+                  />
+                  <div class="like-title">
+                    <b>${this.likes}</b>
+                  </div>
+                </div>
               </div>
             `
         )}
@@ -166,6 +204,10 @@ class Articles extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  addLikes() {
+    this.likes++;
   }
 
   firstUpdated() {
