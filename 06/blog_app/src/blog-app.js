@@ -121,7 +121,7 @@ class BlogApp extends LitElement {
     `;
   }
 
-  async logout() {
+  async logout(e) {
     const response = await apiServices.logout();
     if (response.ok) {
       alert("Usuário deslogado com Sucesso!");

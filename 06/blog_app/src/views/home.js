@@ -7,13 +7,19 @@ class Home extends LitElement {
   constructor() {
     super();
     this.articles = [];
+    this.favActive = 'url("./src/img/star-active.png")';
+    this.fav = "url('./src/img/star.png')";
+    this.currentUser = false;
     this.getArticles();
+    this.getCurrentUser();
   }
 
   static get properties() {
     return {
       // Number, Boolean, Object, Array, String
-      articles: { type: Array }
+      articles: { type: Array },
+      backgroundImage: { type: String },
+      currentUser: { type: Boolean }
     };
   }
 
@@ -93,11 +99,17 @@ class Home extends LitElement {
                 </div>
 
                 <div class="post-content">${articles.content}</div>
-                <button
-                  type="button"
-                  class="button"
-                  @click="${this.buttonClick()}"
-                ></button>
+
+                ${this.currentUser
+                  ? html`
+                      <button
+                        type="button"
+                        class="button"
+                        @click="${this.buttonClick()}"
+                      ></button>
+                    `
+                  : ``}
+
                 <div class="post-link">
                   <a @click="${this.article(articles.id)}"
                     >Visualizar artigo completo...</a
@@ -112,8 +124,11 @@ class Home extends LitElement {
 
   buttonClick(e) {
     return e => {
-      console.log(e.target.style.backgroundImage);
-      e.target.style.backgroundImage = "url('./src/img/star-active.png')";
+      if (e.target.style.backgroundImage == this.favActive) {
+        e.target.style.backgroundImage = this.fav;
+      } else {
+        e.target.style.backgroundImage = this.favActive;
+      }
     };
   }
 
@@ -121,6 +136,13 @@ class Home extends LitElement {
     return e => {
       router.navigate(`/article/${id}`);
     };
+  }
+
+  async getCurrentUser() {
+    const response = await apiServices.getCurrentUser();
+    if (response.id > 0) {
+      this.currentUser = true;
+    }
   }
 }
 
